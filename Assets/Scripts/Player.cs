@@ -33,9 +33,23 @@ public class Player : MovingObject {
 	}
 	void UpdateBlink()
 	{
-		Color col = GetComponent<Renderer> ().material.color;
-		col.a = blink;
-		GetComponent<Renderer>().material.color = col;
+		return;
+		//Color col = GetComponent<Renderer> ().material.color;
+		//col.a = blink;
+	//	GetComponentWithChildren<Renderer>().material.color = col;
+
+		Component[] renderers = GetComponentsInChildren(typeof(Renderer));
+		foreach (Renderer curRenderer in renderers)
+		{
+			Color color;
+			foreach (Material material in curRenderer.materials)
+			{
+				color = material.color;
+				// change alfa for transparency
+				color.a = blink;
+				material.color = color;
+			}
+		}
 	}
 
 	void BlinkIt()
@@ -60,7 +74,7 @@ public class Player : MovingObject {
 
 
 		if (movementType == MovementType.Relative) {
-			Vector2 dir = transform.right;	
+			Vector2 dir = transform.right * vertical;	
 			int xdir = Mathf.RoundToInt (dir.x);
 			int ydir = Mathf.RoundToInt (dir.y);
 			if (vertical == 1 || vertical == -1) {			

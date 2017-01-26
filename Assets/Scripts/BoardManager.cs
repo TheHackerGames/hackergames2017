@@ -70,7 +70,7 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	public void SetupScene(int level) {
-		//BoardSetup ();
+		//gaBoardSetup ();
 		InitialiseList ();
 		//wallCount.min = 19;
 		//wallCount.max = 59;
