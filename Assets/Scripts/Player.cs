@@ -75,7 +75,7 @@ public class Player : MovingObject {
 
 
 		if (movementType == MovementType.Relative) {
-			Vector2 dir = transform.right;	
+			Vector2 dir = transform.right * vertical;	
 			int xdir = Mathf.RoundToInt (dir.x);
 			int ydir = Mathf.RoundToInt (dir.y);
 			if (vertical == 1 || vertical == -1) {			
