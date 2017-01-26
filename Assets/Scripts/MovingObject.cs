@@ -12,15 +12,20 @@ public abstract class MovingObject : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	private float inverseMoveTime;
 	private float inverseRotateTime;
-	private Animator animator;
+	protected Animator animator;
 
 	bool rotating = false;
 	bool moving = false;
 
+	[SerializeField]
 	private float baseRotation;
 
 	[SerializeField]
 	private ArduinoGyroscope gyro;
+
+	[SerializeField]
+	[Range(1f, 4f)]
+	private float rotationMultiplier = 1f;
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -49,7 +54,7 @@ public abstract class MovingObject : MonoBehaviour {
 	}
 
 	protected virtual void Rotate(int dir){		
-		float current = rb2d.rotation;
+		float current = baseRotation;
 		float end = (current + dir * -90);
 		StartCoroutine (SmoothRotate (end));	
 	}
@@ -91,6 +96,7 @@ public abstract class MovingObject : MonoBehaviour {
 			float rotationRemaining = rb2d.rotation - angle;
 			while (Mathf.Abs(rotationRemaining) > float.Epsilon)  {
 				float newRotation = Mathf.MoveTowards(rb2d.rotation, angle, inverseRotateTime * Time.deltaTime);
+				baseRotation = newRotation;
 				rb2d.MoveRotation(newRotation);
 				rotationRemaining = rb2d.rotation - angle;
 				yield return null;
@@ -113,7 +119,7 @@ public abstract class MovingObject : MonoBehaviour {
 		{
 			if(gyro.IsCalibrated)
 			{
-				rb2d.MoveRotation(baseRotation -  gyro.GetGyroData().X);
+				rb2d.MoveRotation(baseRotation -  gyro.GetGyroData().X * rotationMultiplier);
 			}
 		}
 	}
