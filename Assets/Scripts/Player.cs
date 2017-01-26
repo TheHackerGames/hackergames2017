@@ -13,7 +13,7 @@ public class Player : MovingObject {
 	public Text foodText;
 	private Animator animator;
 	private int food;
-
+	private float blink = 1.0f;
 	// Use this for initialization
 	protected override void Start () {		
 		animator = GetComponent<Animator> ();
@@ -25,7 +25,19 @@ public class Player : MovingObject {
 	void OnDisable() {
 		GameManager.instance.playerFoodPoints = food;
 	}
-	
+	void UpdateBlink()
+	{
+		Color col = GetComponent<Renderer> ().material.color;
+		col.a = blink;
+		GetComponent<Renderer>().material.color = col;
+	}
+
+	void BlinkIt()
+	{
+		blink = 0.25f;
+		UpdateBlink ();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (!GameManager.instance.playersTurn)
@@ -43,6 +55,10 @@ public class Player : MovingObject {
 
 		if (horizontal == 1 || horizontal == -1) {
 			Rotate (horizontal);
+		}
+		if (blink < 1.0f) {
+			blink += 1.0f * Time.deltaTime;
+			UpdateBlink ();
 		}
 	}
 
@@ -89,6 +105,7 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
+		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
 		animator.SetTrigger ("PlayerChop");*/
