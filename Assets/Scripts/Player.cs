@@ -19,6 +19,7 @@ public class Player : MovingObject {
 	public MovementType movementType = MovementType.Absolute;
 	private int food;
 	private float blink = 1.0f;
+	private GameObject theSprite;
 	// Use this for initialization
 	public AudioClip hitWallSound;
 
@@ -27,6 +28,7 @@ public class Player : MovingObject {
 		food = GameManager.instance.playerFoodPoints;
 		foodText.text = "Score " + food;
 		base.Start ();
+		theSprite = this.gameObject.transform.GetChild (0).gameObject.transform.GetChild (0).gameObject;
 	}
 
 	void OnDisable() {
@@ -34,12 +36,19 @@ public class Player : MovingObject {
 	}
 	void UpdateBlink()
 	{
-		return;
+		
+		theSprite.SetActive (blink<1.0f);
+		if (blink > 1.0f)
+			blink = 1.0f;
+		//Color col = theSprite.GetComponent<Renderer> ().material.color;
+		//col.a = blink;
+
+		//return;
 		//Color col = GetComponent<Renderer> ().material.color;
 		//col.a = blink;
 	//	GetComponentWithChildren<Renderer>().material.color = col;
 
-		Component[] renderers = GetComponentsInChildren(typeof(Renderer));
+		/*Component[] renderers = GetComponentsInChildren(typeof(Renderer));
 		foreach (Renderer curRenderer in renderers)
 		{
 			Color color;
@@ -50,12 +59,12 @@ public class Player : MovingObject {
 				color.a = blink;
 				material.color = color;
 			}
-		}
+		}*/
 	}
 
 	void BlinkIt()
 	{
-		blink = 0.25f;
+		blink = 0.5f;
 		UpdateBlink ();
 	}
 
