@@ -57,11 +57,15 @@ public class Player : MovingObject {
 	protected override void AttemptMove<T>(int xdir, int ydir){
 		
 		food--;
+<<<<<<< HEAD
 		foodText.text = "Score " + food;
-		
+		base.AttemptMove<T> (xdir, ydir);
+=======
+		foodText.text = "Food " + food;
+
 		Vector2 dir = transform.right;
 		base.AttemptMove<T> (Mathf.RoundToInt(dir.x), Mathf.RoundToInt(dir.y));
-		
+>>>>>>> 855f61873b0f8e2930b6382d0357b5f27c4d382c
 		//RaycastHit2D raycast;
 		CheckIfGameOver ();
 		GameManager.instance.playersTurn = false;
