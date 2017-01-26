@@ -43,12 +43,14 @@ public class BoardManager : MonoBehaviour {
 		boardHolder = new GameObject ("Board").transform;
 		for (int x = -1; x < columns + 1; x++) {
 			for (int y = -1; y < rows + 1; y++) {
-				GameObject toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
+				//GameObject toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
 				if (x == -1 || x == columns || y == -1 || y == rows)
-					toInstantiate = outterWallTiles [Random.Range (0, outterWallTiles.Length)];
+				{
+					GameObject toInstantiate = outterWallTiles [Random.Range (0, outterWallTiles.Length)];
 				
-				var instance = GameObject.Instantiate (toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
-				instance.transform.SetParent (boardHolder);
+					var instance = GameObject.Instantiate (toInstantiate, new Vector3 (x, y, 0f), Quaternion.identity) as GameObject;
+					instance.transform.SetParent (boardHolder);
+				}
 			}
 		}
 	}
@@ -70,7 +72,7 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	public void SetupScene(int level) {
-		//gaBoardSetup ();
+		BoardSetup ();
 		InitialiseList ();
 		//wallCount.min = 19;
 		//wallCount.max = 59;
