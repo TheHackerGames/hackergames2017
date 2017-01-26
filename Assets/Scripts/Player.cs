@@ -21,6 +21,7 @@ public class Player : MovingObject {
 	private int food;
 	private float blink = 1.0f;
 	// Use this for initialization
+
 	protected override void Start () {		
 		animator = GetComponent<Animator> ();
 		food = GameManager.instance.playerFoodPoints;
@@ -45,7 +46,10 @@ public class Player : MovingObject {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	protected override void Update () {
+
+		base.Update();
+
 		if (!GameManager.instance.playersTurn)
 			return;
 
@@ -128,6 +132,7 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
+		animator.SetTrigger ("PlayerHit");
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
