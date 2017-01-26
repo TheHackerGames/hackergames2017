@@ -12,6 +12,7 @@ public abstract class MovingObject : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	private float inverseMoveTime;
 	private float inverseRotateTime;
+	private Animator animator;
 
 	bool rotating = false;
 	bool moving = false;
@@ -22,6 +23,7 @@ public abstract class MovingObject : MonoBehaviour {
 		rb2d = GetComponent<Rigidbody2D> ();
 		inverseMoveTime = 1 / moveTime;
 		inverseRotateTime = 1 / rotateTime;
+		animator = GetComponent<Animator> ();
 	}
 
 	protected bool Move(int xDir, int yDir, out RaycastHit2D hit){
@@ -62,6 +64,7 @@ public abstract class MovingObject : MonoBehaviour {
 	
 	protected IEnumerator SmoothMovement(Vector3 end){
 		if (!moving) {
+			animator.SetTrigger ("PlayerMove");
 			moving = true;
 			float sqRemainingDistance = (transform.position - end).sqrMagnitude;
 			while (sqRemainingDistance > float.Epsilon) {
