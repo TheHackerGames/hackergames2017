@@ -44,8 +44,6 @@ public class SerialCommunicator : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-
-
 		if(serialPort.IsOpen)
 		{
 			
