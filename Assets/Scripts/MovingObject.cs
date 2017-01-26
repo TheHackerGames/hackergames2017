@@ -106,14 +106,15 @@ public abstract class MovingObject : MonoBehaviour {
 				rotationRemaining = rb2d.rotation - angle;
 				yield return null;
 			}
-			rb2d.rotation = angle;
+
 			baseRotation = angle;
-			while (rb2d.rotation > 360.0f) {
-				rb2d.rotation -= 360.0f;
+			while (baseRotation > 360.0f) {
+				baseRotation -= 360.0f;
 			}
-			while (rb2d.rotation < -360.0f) {
-				rb2d.rotation += 360.0f;
+			while (baseRotation < -360.0f) {
+				baseRotation += 360.0f;
 			}
+			rb2d.rotation = baseRotation;
 			rotating = false;
 		}
 	}
