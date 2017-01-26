@@ -74,7 +74,10 @@ public class Player : MovingObject {
 
 
 		if (movementType == MovementType.Relative) {
-			Vector2 dir = transform.right * vertical;	
+
+			//Vector2 dir = transform.right * vertical;	
+			//Vector3 dir = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
+			Vector2 dir = (Vector2)(Quaternion.Euler(0,0,baseRotation) * Vector2.right);
 			int xdir = Mathf.RoundToInt (dir.x);
 			int ydir = Mathf.RoundToInt (dir.y);
 			if (vertical == 1 || vertical == -1) {			
@@ -113,7 +116,8 @@ public class Player : MovingObject {
 	}
 
 	protected override void AttemptMove<T>(int xdir, int ydir){
-		
+
+
 		food--;
 
 		foodText.text = "Score " + food;

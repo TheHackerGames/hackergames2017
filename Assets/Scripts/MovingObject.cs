@@ -18,7 +18,7 @@ public abstract class MovingObject : MonoBehaviour {
 	bool moving = false;
 
 	[SerializeField]
-	private float baseRotation;
+	protected float baseRotation;
 
 	[SerializeField]
 	private ArduinoGyroscope gyro;
@@ -62,6 +62,7 @@ public abstract class MovingObject : MonoBehaviour {
 	protected virtual void AttemptMove<T> (int xDir, int yDir)
 		where T : Component {
 		RaycastHit2D hit;
+		rb2d.MoveRotation(baseRotation);
 		bool canMove = Move(xDir, yDir, out hit);
 		if (hit.transform == null) {
 			return;
