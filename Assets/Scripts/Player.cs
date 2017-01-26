@@ -37,22 +37,35 @@ public class Player : MovingObject {
 		horizontal = (int)Input.GetAxisRaw ("Horizontal");
 		vertical = (int)Input.GetAxisRaw ("Vertical");
 
-		if (horizontal != 0)
-			vertical = 0;
-
-		if (horizontal != 0 || vertical != 0)
+		if (vertical == 1 || vertical == -1) {			
 			AttemptMove<Wall> (horizontal, vertical);
+		}
+
+		if (horizontal == 1 || horizontal == -1) {
+			Rotate (horizontal);
+		}
 	}
 
-	protected override void AttemptMove<T>(int xdir, int ydir)
-	{
+	protected override void Rotate(int horizontal){
+		food--;
+		foodText.text = "Rotate " + food;
+		base.Rotate (horizontal);
+		CheckIfGameOver ();
+		GameManager.instance.playersTurn = false;
+	}
+
+	protected override void AttemptMove<T>(int xdir, int ydir){
+		
 		food--;
 		foodText.text = "Food " + food;
-		base.AttemptMove<T> (xdir, ydir);
+
+		Vector2 dir = transform.right;
+		base.AttemptMove<T> (Mathf.RoundToInt(dir.x), Mathf.RoundToInt(dir.y));
 		//RaycastHit2D raycast;
 		CheckIfGameOver ();
 		GameManager.instance.playersTurn = false;
 	}
+
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
