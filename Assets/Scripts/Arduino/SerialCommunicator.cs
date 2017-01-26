@@ -26,7 +26,7 @@ public class SerialCommunicator : MonoBehaviour
 		}
 		catch(Exception e)
 		{
-			Debug.LogWarning("arduino not detected");
+			Debug.LogWarning("arduino not detected:" + e.ToString());
 
 			if(OnArduinoConnectionFailed != null)
 			{
@@ -75,7 +75,7 @@ public class SerialCommunicator : MonoBehaviour
 						}
 
 					} 
-					catch(Exception e)
+					catch(Exception )
 					{
 					}
 				}
@@ -114,7 +114,7 @@ public class SerialCommunicator : MonoBehaviour
 			string[] lines = data.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 			return lines;
 		}
-		catch(Exception e)
+		catch(Exception )
 		{
 		}
 
