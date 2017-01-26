@@ -6,11 +6,17 @@ using UnityEngine.UI;
 
 public class Player : MovingObject {
 
+	public enum MovementType
+	{
+		Relative,
+		Absolute
+	}
 	public int wallDamage = 1;
 	public int pointsPerFood = 10;
 	public int pointsPerSoda = 10;
 	public float restartLevelDelay = 1;
 	public Text foodText;
+	public MovementType movementType = MovementType.Absolute;
 	private Animator animator;
 	private int food;
 
@@ -37,30 +43,44 @@ public class Player : MovingObject {
 		horizontal = (int)Input.GetAxisRaw ("Horizontal");
 		vertical = (int)Input.GetAxisRaw ("Vertical");
 
-		if (vertical == 1 || vertical == -1) {			
-			AttemptMove<Wall> (horizontal, vertical);
-		}
 
-		if (horizontal == 1 || horizontal == -1) {
-			Rotate (horizontal);
+		if (movementType == MovementType.Relative) {
+			Vector2 dir = transform.right;	
+			int xdir = Mathf.RoundToInt (dir.x);
+			int ydir = Mathf.RoundToInt (dir.y);
+			if (vertical == 1 || vertical == -1) {			
+				AttemptMove<Wall> (xdir, ydir);
+			}
+
+			if (horizontal == 1 || horizontal == -1) {
+				Rotate (horizontal);
+			}
+
+		} else if (movementType == MovementType.Absolute) {
+			if (horizontal != 0)
+				vertical = 0;
+
+			if (horizontal != 0 || vertical != 0)
+				AttemptMove<Wall> (horizontal, vertical);
 		}
 	}
 
 	protected override void Rotate(int horizontal){
-		food--;
-		foodText.text = "Rotate " + food;
-		base.Rotate (horizontal);
-		CheckIfGameOver ();
-		GameManager.instance.playersTurn = false;
+		if (movementType == MovementType.Relative) {
+			food--;
+			foodText.text = "Rotate " + food;
+			base.Rotate (horizontal);
+			CheckIfGameOver ();
+			GameManager.instance.playersTurn = false;
+		}
 	}
 
 	protected override void AttemptMove<T>(int xdir, int ydir){
 		
 		food--;
 		foodText.text = "Food " + food;
+		base.AttemptMove<T> (xdir, ydir);
 
-		Vector2 dir = transform.right;
-		base.AttemptMove<T> (Mathf.RoundToInt(dir.x), Mathf.RoundToInt(dir.y));
 		//RaycastHit2D raycast;
 		CheckIfGameOver ();
 		GameManager.instance.playersTurn = false;
