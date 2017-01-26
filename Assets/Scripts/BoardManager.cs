@@ -18,7 +18,7 @@ public class BoardManager : MonoBehaviour {
 
 	public int columns = 8;
 	public int rows = 8;
-	public Count wallCount = new Count(15, 29);
+	public Count wallCount = new Count(5, 9);
 	public Count foodCount = new Count(1, 5);
 	public GameObject exit;
 	public GameObject[] floorTiles;
@@ -72,9 +72,9 @@ public class BoardManager : MonoBehaviour {
 	public void SetupScene(int level) {
 		BoardSetup ();
 		InitialiseList ();
-		wallCount.min = 19;
-		wallCount.max = 59;
-		LayoutObjectAtRandom (wallTiles, wallCount.min, wallCount.max);
+		//wallCount.min = 19;
+		//wallCount.max = 59;
+		//LayoutObjectAtRandom (wallTiles, wallCount.min, wallCount.max);
 		//LayoutObjectAtRandom (foodTiles, foodCount.min, foodCount.max);
 		int enemyCount = 0;//(int)Mathf.Log (level, 2);
 		LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);

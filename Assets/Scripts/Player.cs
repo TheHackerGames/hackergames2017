@@ -60,6 +60,10 @@ public class Player : MovingObject {
 			blink += 1.0f * Time.deltaTime;
 			UpdateBlink ();
 		}
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			GameManager.instance.ShowWalls ();
+		}
+
 	}
 
 	protected override void Rotate(int horizontal){
