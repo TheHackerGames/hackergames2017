@@ -21,6 +21,7 @@ public class Player : MovingObject {
 	private int food;
 	private float blink = 1.0f;
 	// Use this for initialization
+	public AudioClip hitWallSound;
 
 	protected override void Start () {		
 		animator = GetComponent<Animator> ();
@@ -146,7 +147,7 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
-		animator.SetTrigger ("PlayerHit");
+		SoundManager.instance.PlaySound (hitWallSound);
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
