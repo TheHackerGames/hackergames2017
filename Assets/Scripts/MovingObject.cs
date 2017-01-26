@@ -16,12 +16,18 @@ public abstract class MovingObject : MonoBehaviour {
 	bool rotating = false;
 	bool moving = false;
 
+	private float baseRotation;
+
+	[SerializeField]
+	private ArduinoGyroscope gyro;
+
 	// Use this for initialization
 	protected virtual void Start () {
 		boxCollider = GetComponent<BoxCollider2D> ();
 		rb2d = GetComponent<Rigidbody2D> ();
 		inverseMoveTime = 1 / moveTime;
 		inverseRotateTime = 1 / rotateTime;
+		baseRotation = rb2d.rotation;
 	}
 
 	protected bool Move(int xDir, int yDir, out RaycastHit2D hit){
@@ -78,6 +84,7 @@ public abstract class MovingObject : MonoBehaviour {
 	protected IEnumerator SmoothRotate(float angle){
 		if (!rotating) {
 			rotating = true;
+			rb2d.MoveRotation(baseRotation);
 			float rotationRemaining = rb2d.rotation - angle;
 			while (Mathf.Abs(rotationRemaining) > float.Epsilon)  {
 				float newRotation = Mathf.MoveTowards(rb2d.rotation, angle, inverseRotateTime * Time.deltaTime);
@@ -86,6 +93,7 @@ public abstract class MovingObject : MonoBehaviour {
 				yield return null;
 			}
 			rb2d.rotation = angle;
+			baseRotation = angle;
 			while (rb2d.rotation > 360.0f) {
 				rb2d.rotation -= 360.0f;
 			}
@@ -93,6 +101,17 @@ public abstract class MovingObject : MonoBehaviour {
 				rb2d.rotation += 360.0f;
 			}
 			rotating = false;
+		}
+	}
+
+	protected virtual void Update()
+	{
+		if(!rotating)
+		{
+			if(gyro.IsCalibrated)
+			{
+				rb2d.MoveRotation(baseRotation -  gyro.GetGyroData().X);
+			}
 		}
 	}
 
