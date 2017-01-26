@@ -7,7 +7,10 @@ public abstract class MovingObject : MonoBehaviour {
 	public float moveTime = 0.1f;
 	public float rotateTime = 0.1f;
 	public LayerMask blockingLayer;
-
+	public AudioClip moveForward;
+	public AudioClip moveBackward;
+	public AudioClip turnLeft;
+	public AudioClip turnRight;
 	private BoxCollider2D boxCollider;
 	private Rigidbody2D rb2d;
 	private float inverseMoveTime;
@@ -76,6 +79,7 @@ public abstract class MovingObject : MonoBehaviour {
 	protected IEnumerator SmoothMovement(Vector3 end){
 		if (!moving) {
 			animator.SetTrigger ("PlayerMove");
+			SoundManager.instance.PlaySound (moveForward);
 			moving = true;
 			float sqRemainingDistance = (transform.position - end).sqrMagnitude;
 			while (sqRemainingDistance > float.Epsilon) {
