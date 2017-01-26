@@ -114,7 +114,7 @@ public class SerialCommunicator : MonoBehaviour
 			string[] lines = data.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 			return lines;
 		}
-		catch(Exception e)
+		catch(Exception )
 		{
 		}
 

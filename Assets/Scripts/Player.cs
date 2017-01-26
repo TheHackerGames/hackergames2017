@@ -17,14 +17,14 @@ public class Player : MovingObject {
 	public float restartLevelDelay = 1;
 	public Text foodText;
 	public MovementType movementType = MovementType.Absolute;
-	private Animator animator;
 	private int food;
 	private float blink = 1.0f;
 	private GameObject theSprite;
 	// Use this for initialization
+	public AudioClip hitWallSound;
 
 	protected override void Start () {		
-		animator = GetComponent<Animator> ();
+
 		food = GameManager.instance.playerFoodPoints;
 		foodText.text = "Score " + food;
 		base.Start ();
@@ -155,7 +155,7 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
-		animator.SetTrigger ("PlayerHit");
+		SoundManager.instance.PlaySound (hitWallSound);
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
