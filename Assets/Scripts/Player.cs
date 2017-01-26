@@ -22,6 +22,7 @@ public class Player : MovingObject {
 	private GameObject theSprite;
 	// Use this for initialization
 	public AudioClip hitWallSound;
+	public AudioClip hitOutterWallSound;
 	public AudioClip moveForward;
 	public AudioClip moveBackward;
 	public AudioClip turnLeft;
@@ -179,7 +180,11 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
-		SoundManager.instance.PlaySound (hitWallSound);
+		if (component.tag == "Wall") {
+			SoundManager.instance.PlaySound (hitWallSound);
+		} else {
+			SoundManager.instance.PlaySound (hitOutterWallSound);
+		}
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
