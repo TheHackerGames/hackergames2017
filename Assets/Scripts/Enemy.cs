@@ -5,14 +5,14 @@ using UnityEngine;
 public class Enemy : MovingObject {
 
 	public int playerDamage = 1;
-	private Animator animator;
+	private Animator enemyAnimator;
 	private Transform target;
 	private bool skipMove = false;
 
 	// Use this for initialization
 	protected override void Start () {
 		GameManager.instance.AddEnemyToList (this);
-		animator = GetComponent<Animator> ();
+		enemyAnimator = GetComponent<Animator> ();
 		target = GameObject.FindGameObjectWithTag ("Player").transform;
 		base.Start ();
 	}
@@ -43,6 +43,6 @@ public class Enemy : MovingObject {
 	protected override void OnCantMove<T>(T component){
 		Player hitPlayer = component as Player;
 		hitPlayer.LoseFood (playerDamage);
-		animator.SetTrigger ("EnemyAttack");
+		enemyAnimator.SetTrigger ("EnemyAttack");
 	}
 }
