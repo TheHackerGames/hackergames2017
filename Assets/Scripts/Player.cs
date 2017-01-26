@@ -150,7 +150,8 @@ public class Player : MovingObject {
 	private void CheckIfGameOver() 
 	{
 		if (food <= 0) {
-			GameManager.instance.GameOver ();
+			food = 0;
+			//GameManager.instance.GameOver ();
 		}
 	}
 }
