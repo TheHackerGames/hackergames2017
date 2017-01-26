@@ -19,19 +19,31 @@ public class Player : MovingObject {
 	public MovementType movementType = MovementType.Absolute;
 	private Animator animator;
 	private int food;
-
+	private float blink = 1.0f;
 	// Use this for initialization
 	protected override void Start () {		
 		animator = GetComponent<Animator> ();
 		food = GameManager.instance.playerFoodPoints;
-		foodText.text = "Food " + food;
+		foodText.text = "Score " + food;
 		base.Start ();
 	}
 
 	void OnDisable() {
 		GameManager.instance.playerFoodPoints = food;
 	}
-	
+	void UpdateBlink()
+	{
+		Color col = GetComponent<Renderer> ().material.color;
+		col.a = blink;
+		GetComponent<Renderer>().material.color = col;
+	}
+
+	void BlinkIt()
+	{
+		blink = 0.25f;
+		UpdateBlink ();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (!GameManager.instance.playersTurn)
@@ -63,6 +75,10 @@ public class Player : MovingObject {
 			if (horizontal != 0 || vertical != 0)
 				AttemptMove<Wall> (horizontal, vertical);
 		}
+		if (blink < 1.0f) {
+			blink += 1.0f * Time.deltaTime;
+			UpdateBlink ();
+		}
 	}
 
 	protected override void Rotate(int horizontal){
@@ -78,9 +94,9 @@ public class Player : MovingObject {
 	protected override void AttemptMove<T>(int xdir, int ydir){
 		
 		food--;
-		foodText.text = "Food " + food;
-		base.AttemptMove<T> (xdir, ydir);
 
+		foodText.text = "Score " + food;
+		base.AttemptMove<T> (xdir, ydir);
 		//RaycastHit2D raycast;
 		CheckIfGameOver ();
 		GameManager.instance.playersTurn = false;
@@ -97,20 +113,21 @@ public class Player : MovingObject {
 			enabled = false;
 		} else if (other.tag == "Food") {
 			food += pointsPerFood;
-			foodText.text = "+" + pointsPerFood + " Food " + food;
+			foodText.text = "+" + pointsPerFood + " Score " + food;
 			other.gameObject.SetActive (false);
 		} else if (other.tag == "Soda") {
 			food += pointsPerSoda;
-			foodText.text = "+" + pointsPerFood + " Food " + food;
+			foodText.text = "+" + pointsPerFood + " Score " + food;
 			other.gameObject.SetActive (false);
 		}
 	}
 
 	protected override void OnCantMove<T>(T component)
 	{
-		Wall hitWall = component as Wall;
+		BlinkIt ();
+		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
-		animator.SetTrigger ("PlayerChop");
+		animator.SetTrigger ("PlayerChop");*/
 	}
 
 	private void Restart()
@@ -122,7 +139,7 @@ public class Player : MovingObject {
 	{
 		animator.SetTrigger ("PlayerHit");
 		food -= loss;
-		foodText.text = "-" + loss + " Food " + food;
+		foodText.text = "-" + loss + " Score " + food;
 		CheckIfGameOver ();
 	}
 
