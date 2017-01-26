@@ -22,6 +22,10 @@ public class Player : MovingObject {
 	private GameObject theSprite;
 	// Use this for initialization
 	public AudioClip hitWallSound;
+	public AudioClip moveForward;
+	public AudioClip moveBackward;
+	public AudioClip turnLeft;
+	public AudioClip turnRight;
 
 	protected override void Start () {		
 
@@ -88,6 +92,13 @@ public class Player : MovingObject {
 			int xdir = Mathf.RoundToInt (dir.x);
 			int ydir = Mathf.RoundToInt (dir.y);
 			if (vertical == 1 || vertical == -1) {			
+				if (!moving) {
+					if (vertical > 0) {
+						SoundManager.instance.PlaySound (moveForward);
+					} else {
+						SoundManager.instance.PlaySound (moveBackward);
+					}
+				}
 				AttemptMove<Wall> (xdir, ydir);
 			}
 
@@ -114,6 +125,15 @@ public class Player : MovingObject {
 
 	protected override void Rotate(int horizontal){
 		if (movementType == MovementType.Relative) {
+
+			if (!rotating) {
+				if (horizontal > 0) {
+					SoundManager.instance.PlaySound (turnLeft);
+				} else {
+					SoundManager.instance.PlaySound (turnRight);
+				}
+			}
+
 			food--;
 			foodText.text = "Rotate " + food;
 			base.Rotate (horizontal);
