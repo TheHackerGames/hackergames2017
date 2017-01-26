@@ -17,13 +17,12 @@ public class Player : MovingObject {
 	public float restartLevelDelay = 1;
 	public Text foodText;
 	public MovementType movementType = MovementType.Absolute;
-	private Animator animator;
 	private int food;
 	private float blink = 1.0f;
 	// Use this for initialization
 
 	protected override void Start () {		
-		animator = GetComponent<Animator> ();
+
 		food = GameManager.instance.playerFoodPoints;
 		foodText.text = "Score " + food;
 		base.Start ();
