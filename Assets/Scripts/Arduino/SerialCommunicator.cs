@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
 using System;
+using UnityEngine.UI;
 
 public class SerialCommunicator : MonoBehaviour 
 {
+	public Action<int, int, int> OnGyroscopeData;
+	public Action OnArduinoConnected;
+	public Action OnArduinoConnectionFailed;
 	private SerialPort serialPort;
 
 	private bool communicationInitialised = false;
@@ -15,7 +19,27 @@ public class SerialCommunicator : MonoBehaviour
 
 		serialPort = new SerialPort("/dev/tty.usbmodem1411", 115200);
 		serialPort.ReadTimeout = 50;
-		serialPort.Open();
+		try 
+		{
+			serialPort.Open();
+			serialPort.DiscardInBuffer ();
+		}
+		catch(Exception e)
+		{
+			Debug.LogWarning("arduino not detected");
+
+			if(OnArduinoConnectionFailed != null)
+			{
+				OnArduinoConnectionFailed();
+			}
+		}
+		finally 
+		{
+			if(OnArduinoConnected != null)
+			{
+				OnArduinoConnected();
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -24,21 +48,105 @@ public class SerialCommunicator : MonoBehaviour
 
 		if(serialPort.IsOpen)
 		{
-			try 
+			
+			if(serialPort.BytesToRead == 0)
 			{
-				string chars = "";
-				for(int i =0; i < 14; i++)
-				{
-					chars += serialPort.ReadChar();
-					
-				}
-		
-				Debug.Log(chars);
+				return;
 			}
-			catch(Exception e)
+
+			if(communicationInitialised)
 			{
-				serialPort.Write("ping");
+				while(serialPort.BytesToRead >= 12)
+				{
+					try 
+					{
+						
+						float x = readFloat();
+						float y = readFloat();
+						float z = readFloat();
+
+						int eulerX = Convert.ToInt32(x * 180 / Mathf.PI);
+						int eulerY =  Convert.ToInt32(y * 180 / Mathf.PI);
+						int eulerZ =  Convert.ToInt32(z * 180 / Mathf.PI);
+
+						if(OnGyroscopeData != null)
+						{
+							OnGyroscopeData(eulerX, eulerY, eulerZ);
+						}
+
+					} 
+					catch(Exception e)
+					{
+					}
+				}
+
+			
+			}
+			else 
+			{
+				if(IsCommandThere("Ready"))
+				{
+					Debug.Log("arduino is ready");
+					serialPort.WriteLine("ping");
+					communicationInitialised = true;
+				}
 			}
 		}
+	}
+
+	float readFloat()
+	{
+		byte b1 = Convert.ToByte(serialPort.ReadByte());
+		byte b2 = Convert.ToByte(serialPort.ReadByte());
+		byte b3 = Convert.ToByte(serialPort.ReadByte());
+		byte b4 = Convert.ToByte(serialPort.ReadByte());
+
+		byte[] newArray = new[] { b4, b3, b2, b1};
+
+		return BitConverter.ToSingle(newArray, 0);
+	}
+
+	private string[] GetDataFromArduino()
+	{
+		try 
+		{
+			string data = serialPort.ReadExisting();
+			string[] lines = data.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+			return lines;
+		}
+		catch(Exception e)
+		{
+		}
+
+		return null;
+
+	}
+
+	private bool IsCommandThere(string command)
+	{
+		string[] lines = GetDataFromArduino();
+
+		if(lines != null)
+		{
+			foreach(string line in lines)
+			{
+				if(line.Contains(command))
+				{
+					return true;
+				}
+
+			}
+		}
+
+		return false;
+	}
+
+	private void OnApplicationQuit ()
+	{
+		if(serialPort.IsOpen)
+		{
+			serialPort.Close();
+		}
+
 	}
 }
