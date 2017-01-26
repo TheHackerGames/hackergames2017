@@ -13,6 +13,7 @@ public class InputEvents : MonoBehaviour {
 	{
 		//gameObject.renderer.enabled = !gameObject.renderer.enabled;
 		//	gameObject.SetActive (!gameObject.activ);
+
 		GetComponent<Renderer>().enabled = !GetComponent<Renderer>().enabled;
 	}
 }
