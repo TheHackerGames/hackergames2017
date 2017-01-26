@@ -132,6 +132,7 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
+		animator.SetTrigger ("PlayerHit");
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
@@ -154,7 +155,8 @@ public class Player : MovingObject {
 	private void CheckIfGameOver() 
 	{
 		if (food <= 0) {
-			GameManager.instance.GameOver ();
+			food = 0;
+			//GameManager.instance.GameOver ();
 		}
 	}
 }

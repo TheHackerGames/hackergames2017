@@ -44,4 +44,14 @@ public class Wall : MonoBehaviour {
 			GetComponent<Renderer> ().material.color = Color.white;
 		}
 	}
+
+	void OnMouseDown()
+	{
+		//gameObject.renderer.enabled = !gameObject.renderer.enabled;
+		//	gameObject.SetActive (!gameObject.activ);
+		float delta = Vector3.Distance (player.transform.position, transform.position);
+		if (delta > 2) {
+			GetComponent<Renderer> ().enabled = !GetComponent<Renderer> ().enabled;
+		}
+	}
 }
