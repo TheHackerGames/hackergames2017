@@ -86,4 +86,14 @@ public class GameManager : MonoBehaviour {
 		levelImage.gameObject.SetActive (true);
 		enabled = false;
 	}
+
+	public void ShowWalls()
+	{
+		GameObject[] walls = GameObject.FindGameObjectsWithTag ("Wall");
+
+		foreach (GameObject wall in walls) {
+			wall.GetComponent<Wall> ().Visible ();
+		}
+	}
+
 }
