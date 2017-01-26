@@ -72,8 +72,6 @@ public class BoardManager : MonoBehaviour {
 	public void SetupScene(int level) {
 		BoardSetup ();
 		InitialiseList ();
-		wallCount.min = 19;
-		wallCount.max = 59;
 		LayoutObjectAtRandom (wallTiles, wallCount.min, wallCount.max);
 		//LayoutObjectAtRandom (foodTiles, foodCount.min, foodCount.max);
 		int enemyCount = 0;//(int)Mathf.Log (level, 2);
