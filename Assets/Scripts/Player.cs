@@ -18,7 +18,7 @@ public class Player : MovingObject {
 	protected override void Start () {		
 		animator = GetComponent<Animator> ();
 		food = GameManager.instance.playerFoodPoints;
-		foodText.text = "Food " + food;
+		foodText.text = "Score " + food;
 		base.Start ();
 	}
 
@@ -47,7 +47,7 @@ public class Player : MovingObject {
 	protected override void AttemptMove<T>(int xdir, int ydir)
 	{
 		food--;
-		foodText.text = "Food " + food;
+		foodText.text = "Score " + food;
 		base.AttemptMove<T> (xdir, ydir);
 		//RaycastHit2D raycast;
 		CheckIfGameOver ();
@@ -64,20 +64,20 @@ public class Player : MovingObject {
 			enabled = false;
 		} else if (other.tag == "Food") {
 			food += pointsPerFood;
-			foodText.text = "+" + pointsPerFood + " Food " + food;
+			foodText.text = "+" + pointsPerFood + " Score " + food;
 			other.gameObject.SetActive (false);
 		} else if (other.tag == "Soda") {
 			food += pointsPerSoda;
-			foodText.text = "+" + pointsPerFood + " Food " + food;
+			foodText.text = "+" + pointsPerFood + " Score " + food;
 			other.gameObject.SetActive (false);
 		}
 	}
 
 	protected override void OnCantMove<T>(T component)
 	{
-		Wall hitWall = component as Wall;
+		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
-		animator.SetTrigger ("PlayerChop");
+		animator.SetTrigger ("PlayerChop");*/
 	}
 
 	private void Restart()
@@ -89,7 +89,7 @@ public class Player : MovingObject {
 	{
 		animator.SetTrigger ("PlayerHit");
 		food -= loss;
-		foodText.text = "-" + loss + " Food " + food;
+		foodText.text = "-" + loss + " Score " + food;
 		CheckIfGameOver ();
 	}
 
