@@ -128,6 +128,7 @@ public class Player : MovingObject {
 
 	protected override void OnCantMove<T>(T component)
 	{
+		animator.SetTrigger ("PlayerHit");
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
