@@ -14,10 +14,18 @@ public class SerialCommunicator : MonoBehaviour
 
 	private bool communicationInitialised = false;
 
+	[SerializeField]
+	private string portAddress = "/dev/tty.usbmodem1411";
+	///dev/cu.wchusbserial1420
+
+	[SerializeField]
+	private int baudRate = 115200;
+
+
 	// Use this for initialization
 	void Start () {
 
-		serialPort = new SerialPort("/dev/tty.usbmodem1411", 115200);
+		serialPort = new SerialPort(portAddress, baudRate);
 		serialPort.ReadTimeout = 50;
 		try 
 		{
