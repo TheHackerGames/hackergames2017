@@ -51,6 +51,14 @@ public class ArduinoGyroscope : MonoBehaviour {
 		{
 			StartCoroutine(Calibrate());
 		}
+
+		if(Input.GetKeyDown(KeyCode.Backspace))
+		{
+			pointZeroX = x;
+			pointZeroY = y;
+			pointZeroZ = z;
+			Debug.Log("point zero reset");
+		}
 	}
 
 	private IEnumerator Calibrate()
