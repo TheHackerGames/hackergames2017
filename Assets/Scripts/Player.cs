@@ -189,7 +189,9 @@ public class Player : MovingObject {
 		} else if (other.tag == "Food") {
 			food += pointsPerFood;
 			foodText.text = "+" + pointsPerFood + " Score " + food;
+			ItemManager.instance.SpawnNextItem ();
 			other.gameObject.SetActive (false);
+
 		} else if (other.tag == "Coins") {
 			food += pointsPerSoda;
 			foodText.text = "+" + pointsPerFood + " Score " + food;
