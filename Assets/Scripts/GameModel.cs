@@ -13,7 +13,6 @@ public class GameModel : MonoBehaviour {
 	void Start () {
 
 		collectibles = GameObject.FindObjectsOfType<Collectible>().ToList();
-		Debug.Log(GameObject.FindObjectsOfType<Collectible>().Length);
 	}
 
 	public void Collect(Collectible collectible)
