@@ -84,7 +84,7 @@ public class BoardManager : MonoBehaviour {
 		}
 		int enemyCount = 0;//(int)Mathf.Log (level, 2);
 		LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
-		GameObject.Instantiate (exit, new Vector3 (columns - 1, rows - 1, 0), Quaternion.identity);
+		GameObject.Instantiate (exit, new Vector3 (15, 10, 0), Quaternion.identity);
 	}
 
 	void Start() {
