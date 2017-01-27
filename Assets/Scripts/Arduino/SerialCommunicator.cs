@@ -43,6 +43,7 @@ public class SerialCommunicator : MonoBehaviour
 		}
 		finally 
 		{
+			Debug.Log("port opened");
 			if(OnArduinoConnected != null)
 			{
 				OnArduinoConnected();
@@ -136,6 +137,8 @@ public class SerialCommunicator : MonoBehaviour
 		{
 			foreach(string line in lines)
 			{
+				Debug.Log(line);
+
 				if(line.Contains(command))
 				{
 					return true;
