@@ -33,6 +33,7 @@ public class Player : MovingObject {
 	public AudioClip moveBackward;
 	public AudioClip turnLeft;
 	public AudioClip turnRight;
+	public AudioClip exitDone;
 
 	[SerializeField]
 	private InputType inputType = InputType.Keyboard;
@@ -181,7 +182,8 @@ public class Player : MovingObject {
 		var pos = gameObject.transform.position;
 		var pos2 = other.transform.position;
 
-		if (other.tag == "Exit") {
+		if (other.tag == "Exit") {			
+			SoundManager.instance.PlaySound (exitDone);
 			Invoke ("Restart", restartLevelDelay);
 			enabled = false;
 		} else if (other.tag == "Food") {
