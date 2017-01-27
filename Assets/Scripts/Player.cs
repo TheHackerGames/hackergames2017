@@ -125,6 +125,14 @@ public class Player : MovingObject {
 			GameManager.instance.ShowWalls ();
 		}
 
+		if (Input.GetKeyDown (KeyCode.Alpha1))
+			{
+			GameManager.instance.SetMode(1);
+			}
+		if (Input.GetKeyDown (KeyCode.Alpha1))
+		{
+			GameManager.instance.SetMode(2);
+		}
 	}
 
 	protected override void Rotate(int horizontal){
