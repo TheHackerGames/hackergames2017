@@ -87,7 +87,7 @@ public class Wall : MonoBehaviour {
 		//gameObject.renderer.enabled = !gameObject.renderer.enabled;
 		//	gameObject.SetActive (!gameObject.activ);
 		float delta = Vector3.Distance (player.transform.position, transform.position);
-		if (delta < 2) {
+		if (delta < 3) {
 			GetComponent<Renderer> ().enabled = !GetComponent<Renderer> ().enabled;
 			isVisible = true;
 		}
