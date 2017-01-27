@@ -16,10 +16,14 @@ public class Wall : MonoBehaviour {
 		GetComponent<Renderer>().enabled = false;
 	}
 
-	public void Visible()
+	public void SwapVisibility()
 	{
-		GetComponent<Renderer>().enabled = true;
-		visibilityCheck = false;
+		if (visibilityCheck) {
+			GetComponent<Renderer> ().enabled = true;
+			visibilityCheck = false;
+		} else {
+			visibilityCheck = true;
+		}
 	}
 
 	public void DamageWall(int loss){
@@ -33,7 +37,7 @@ public class Wall : MonoBehaviour {
 	void Update () {
 		//float delta = (player.transform.position - transform.position).distance;
 		if (visibilityCheck) {
-			float unit = 5.0f;
+			float unit = 10.0f;
 			float delta = Vector3.Distance (player.transform.position, transform.position) / unit;
 			float distance = 1.0f - delta;
 			Color col = GetComponent<Renderer> ().material.color;
@@ -42,6 +46,7 @@ public class Wall : MonoBehaviour {
 		} 
 		else {
 			GetComponent<Renderer> ().material.color = Color.white;
+			GetComponent<Renderer> ().enabled = true;
 		}
 	}
 

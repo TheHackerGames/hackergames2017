@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	private bool doingSetup = false;
 	public int playerFoodPoints = 100;
 	[HideInInspector] public bool playersTurn = true;
+	public int GameMode=1;
 
 	// Use this for initialization
 	void Awake () {
@@ -92,8 +93,18 @@ public class GameManager : MonoBehaviour {
 		GameObject[] walls = GameObject.FindGameObjectsWithTag ("Wall");
 
 		foreach (GameObject wall in walls) {
-			wall.GetComponent<Wall> ().Visible ();
+			wall.GetComponent<Wall> ().SwapVisibility ();
 		}
+	}
+
+
+	public void SetMode(int gamemode){
+		
+		if (gamemode < 1)
+			gamemode = 1;
+		else if (gamemode > 2)
+			gamemode = 2;
+		GameMode = gamemode;
 	}
 
 }
