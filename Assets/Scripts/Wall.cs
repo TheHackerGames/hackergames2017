@@ -17,7 +17,7 @@ public class Wall : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		GetComponent<Renderer>().enabled = false;
 		isVisible = false;
-		blinking = 1.0f;
+		blinking = 2.0f;
 	}
 	public void Blinkit ()
 	{
@@ -47,33 +47,36 @@ public class Wall : MonoBehaviour {
 	}
 
 	void Update () {
-		if (blinking < 1.0f && isVisible==false) {
-			blinking += Time.deltaTime;
-			float ease = (float)EaseOut (blinking, 0, 1, 3.0f);
-			Color col = Color.white;
-			GetComponent<Renderer> ().enabled = true;
-
-			if (blinking > 1.0f) {
-				blinking = 1.0f;
-				//GetComponent<Renderer> ().enabled = isVisible;
-			}
-			col.a = 1-ease;
-			GetComponent<Renderer> ().material.color = col;
-
-		}/* else {
-			//float delta = (player.transform.position - transform.position).distance;
-			if (visibilityCheck) {
-				float unit = 10.0f;
-				float delta = Vector3.Distance (player.transform.position, transform.position) / unit;
-				float distance = 1.0f - delta;
-				Color col = GetComponent<Renderer> ().material.color;
-				col.a = distance;
-				GetComponent<Renderer> ().material.color = col;
-			} else {
-				GetComponent<Renderer> ().material.color = Color.white;
+		if (isVisible) {
+				if (visibilityCheck ) {
+					float unit = 10.0f;
+					float delta = Vector3.Distance (player.transform.position, transform.position) / unit;
+					float distance = 1.0f - delta;
+					Color col = GetComponent<Renderer> ().material.color;
+					col.a = distance;
+					GetComponent<Renderer> ().material.color = col;
+				} else {
+					GetComponent<Renderer> ().material.color = Color.white;
+					GetComponent<Renderer> ().enabled = true;
+				}
+		} else {
+			if (blinking <= 2.0f) {
+				blinking += Time.deltaTime;
+				float ease = (float)EaseOut (blinking, 0, 1, 3.0f);
+				Color col = Color.white;
 				GetComponent<Renderer> ().enabled = true;
+
+				if (ease > 1.0f) {
+					blinking = 2.0f;
+					//GetComponent<Renderer> ().enabled = isVisible;
+				}
+				col.a = 1 - ease;
+				GetComponent<Renderer> ().material.color = col;
+			} 
+			else {
+				GetComponent<Renderer> ().enabled = false;
 			}
-		}*/
+		}
 	}
 
 	void OnMouseDown()
