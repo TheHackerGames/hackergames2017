@@ -191,6 +191,8 @@ public class Player : MovingObject {
 	{
 		if (component.tag == "Wall") {
 			SoundManager.instance.PlaySound (hitWallSound);
+			gameModel.Score -= 15;
+			gameModel.Score = Mathf.Clamp01(gameModel.Score);
 		}
 		else
 		{
