@@ -49,19 +49,18 @@ public class Wall : MonoBehaviour {
 	void Update () {
 		if (blinking < 1.0f && isVisible==false) {
 			blinking += Time.deltaTime;
-			float ease = (float)EaseOut (blinking, 0, 1, 1.0f);
+			float ease = (float)EaseOut (blinking, 0, 1, 3.0f);
 			Color col = Color.white;
 			GetComponent<Renderer> ().enabled = true;
 
 			if (blinking > 1.0f) {
 				blinking = 1.0f;
-				GetComponent<Renderer> ().enabled = isVisible;
+				//GetComponent<Renderer> ().enabled = isVisible;
 			}
 			col.a = 1-ease;
 			GetComponent<Renderer> ().material.color = col;
 
-		} else {
-
+		}/* else {
 			//float delta = (player.transform.position - transform.position).distance;
 			if (visibilityCheck) {
 				float unit = 10.0f;
@@ -74,7 +73,7 @@ public class Wall : MonoBehaviour {
 				GetComponent<Renderer> ().material.color = Color.white;
 				GetComponent<Renderer> ().enabled = true;
 			}
-		}
+		}*/
 	}
 
 	void OnMouseDown()
