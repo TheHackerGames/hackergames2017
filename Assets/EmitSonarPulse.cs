@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EmitSonarPulse : MonoBehaviour {
 
+	public AudioClip sound;
 	public GameObject sonarBullet;
 	public int numBullets = 10;
 	public float speed = 1.0f;
@@ -11,6 +12,8 @@ public class EmitSonarPulse : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown (0)) {
 			Vector2 spawnPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+			SoundManager.instance.Play3DSound (sound, spawnPosition);
+
 			float deltaAngle = Mathf.Deg2Rad * (360.0f/numBullets);
 			float angle = 0.0f;
 			for (int i = 0; i < numBullets; ++i) {
