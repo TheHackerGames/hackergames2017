@@ -31,6 +31,8 @@ public class Player : MovingObject {
 	public AudioClip turnRight;
 	public AudioClip exitDone;
 
+	public RectTransform winSplash;
+
 	[SerializeField]
 	private InputType inputType = InputType.Keyboard;
 
@@ -183,6 +185,7 @@ public class Player : MovingObject {
 		if (other.tag == "Exit") {			
 			SoundManager.instance.PlaySound (exitDone);
 			gameObject.SetActive(false);
+			winSplash.gameObject.SetActive(true);
 		} 
 	}
 
