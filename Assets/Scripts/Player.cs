@@ -177,7 +177,7 @@ public class Player : MovingObject {
 			SoundManager.instance.PlaySound (	collectible.collectSound);
 			gameModel.Collect(collectible);
 			collectible.gameObject.SetActive(false);
-
+			ItemManager.instance.SpawnNextItem ();
 		}
 
 		if (other.tag == "Exit") {			
