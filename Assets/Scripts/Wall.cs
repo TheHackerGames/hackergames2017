@@ -37,7 +37,7 @@ public class Wall : MonoBehaviour {
 	void Update () {
 		//float delta = (player.transform.position - transform.position).distance;
 		if (visibilityCheck) {
-			float unit = 5.0f;
+			float unit = 10.0f;
 			float delta = Vector3.Distance (player.transform.position, transform.position) / unit;
 			float distance = 1.0f - delta;
 			Color col = GetComponent<Renderer> ().material.color;
