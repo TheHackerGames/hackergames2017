@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,6 +29,7 @@ public class Player : MovingObject {
 	public AudioClip moveBackward;
 	public AudioClip turnLeft;
 	public AudioClip turnRight;
+	public AudioClip exitDone;
 
 	[SerializeField]
 	private InputType inputType = InputType.Keyboard;
@@ -169,16 +170,18 @@ public class Player : MovingObject {
 		var pos = gameObject.transform.position;
 		var pos2 = other.transform.position;
 
+		
 		if( other.GetComponent<Collectible>())
 		{
 			Collectible collectible = other.GetComponent<Collectible>();
 			SoundManager.instance.PlaySound (	collectible.collectSound);
 			gameModel.Collect(collectible);
-			//collectible.gameObject.SetActive(false);
+			collectible.gameObject.SetActive(false);
 
 		}
 
-		if (other.tag == "Exit") {
+		if (other.tag == "Exit") {			
+			SoundManager.instance.PlaySound (exitDone);
 			Invoke ("Restart", restartLevelDelay);
 			enabled = false;
 		} 
