@@ -10,6 +10,7 @@ public class DestroyOnCollision : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider){
 		if (collider.gameObject.tag == "Wall") {
 			Destroy (gameObject);
+
 		}
 	}
 
