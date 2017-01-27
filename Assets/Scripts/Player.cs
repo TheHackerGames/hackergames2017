@@ -150,14 +150,14 @@ public class Player : MovingObject {
 
 			if (!rotating) {
 				if (horizontal > 0) {
+					foodText.text = "Rotate Right";
 					SoundManager.instance.PlaySound (turnLeft);
 				} else {
+					foodText.text = "Rotate Left";
 					SoundManager.instance.PlaySound (turnRight);
 				}
 			}
 
-			food--;
-			foodText.text = "Rotate " + food;
 			base.Rotate (horizontal);
 			CheckIfGameOver ();
 			GameManager.instance.playersTurn = false;
@@ -165,8 +165,6 @@ public class Player : MovingObject {
 	}
 
 	protected override void AttemptMove<T>(int xdir, int ydir){
-
-
 		food--;
 
 		foodText.text = "Score " + food;
