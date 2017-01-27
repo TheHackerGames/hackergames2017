@@ -182,8 +182,7 @@ public class Player : MovingObject {
 
 		if (other.tag == "Exit") {			
 			SoundManager.instance.PlaySound (exitDone);
-			Invoke ("Restart", restartLevelDelay);
-			enabled = false;
+			gameObject.SetActive(false);
 		} 
 	}
 
