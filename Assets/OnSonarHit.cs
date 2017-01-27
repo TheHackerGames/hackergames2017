@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class OnSonarHit : MonoBehaviour {
 
-	Renderer spriteRenderer;
+	Wall wall;
 	void Awake(){
-		spriteRenderer = GetComponent<Renderer> ();
+		wall = GetComponent<Wall> ();
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Bullet") {
-			spriteRenderer.enabled = true;
+			wall.Blinkit ();
+			//spriteRenderer.enabled = true;
 		}
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
-		spriteRenderer.enabled = true;
+		//spriteRenderer.enabled = true;
 	}
 }
