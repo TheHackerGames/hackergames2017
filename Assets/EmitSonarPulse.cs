@@ -8,9 +8,17 @@ public class EmitSonarPulse : MonoBehaviour {
 	public GameObject sonarBullet;
 	public int numBullets = 10;
 	public float speed = 1.0f;
+	static int count = 0;
+
+
 	// Update is called once per frame
-	void Update () {
+	void Update () {		
 		if (Input.GetMouseButtonDown (0)) {
+			if (count == 0) {
+				count++;
+				return;
+			}
+
 			Vector2 spawnPosition = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 			SoundManager.instance.Play3DSound (sound, spawnPosition);
 
