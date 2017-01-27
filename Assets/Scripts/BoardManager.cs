@@ -41,6 +41,7 @@ public class BoardManager : MonoBehaviour {
 
 	void BoardSetup(){
 		boardHolder = new GameObject ("Board").transform;
+
 		for (int x = -1; x < columns + 1; x++) {
 			for (int y = -1; y < rows + 1; y++) {
 				//GameObject toInstantiate = floorTiles [Random.Range (0, floorTiles.Length)];
@@ -53,6 +54,7 @@ public class BoardManager : MonoBehaviour {
 				}
 			}
 		}
+		boardHolder.Translate (new Vector3 (-5, 0, 0));
 	}
 
 	Vector3 RandomPosition() {
@@ -87,8 +89,5 @@ public class BoardManager : MonoBehaviour {
 		GameObject.Instantiate (exit, new Vector3 (15, 10, 0), Quaternion.identity);
 	}
 
-	void Start() {
-				
-	}
 
 }
