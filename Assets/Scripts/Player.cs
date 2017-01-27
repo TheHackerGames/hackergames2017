@@ -192,9 +192,7 @@ public class Player : MovingObject {
 		if (component.tag == "Wall") {
 			SoundManager.instance.PlaySound (hitWallSound);
 			gameModel.Score -= 15;
-			if (gameModel.Score < 0)
-				gameModel.Score = 0;
-			
+			gameModel.Score =  Mathf.Max(0, gameModel.Score);
 		}
 		else
 		{
