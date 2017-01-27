@@ -30,7 +30,7 @@ public class EmitSonarPulse : MonoBehaviour {
 		var velocity = direction.normalized * speed;
 		location.x = (int)(location.x+0.5f) ;
 		location.y = (int)(location.y+0.5f);
-		location += direction.normalized * 0.5f; 
+		location += direction.normalized * 1.0f; 
 		var bullet = GameObject.Instantiate (sonarBullet, location, Quaternion.identity);
 
 		Rigidbody2D rb2d = bullet.GetComponent<Rigidbody2D> ();
