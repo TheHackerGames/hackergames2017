@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,12 +18,8 @@ public class Player : MovingObject {
 		Absolute
 	}
 	public int wallDamage = 1;
-	public int pointsPerFood = 10;
-	public int pointsPerSoda = 10;
 	public float restartLevelDelay = 1;
-	public Text foodText;
 	public MovementType movementType = MovementType.Absolute;
-	private int food;
 	private float blink = 1.0f;
 	private GameObject theSprite;
 	// Use this for initialization
@@ -38,17 +34,15 @@ public class Player : MovingObject {
 	[SerializeField]
 	private InputType inputType = InputType.Keyboard;
 
+	private GameModel gameModel;
+
 	protected override void Start () {		
 
-		food = GameManager.instance.playerFoodPoints;
-		foodText.text = "Score " + food;
 		base.Start ();
 		theSprite = this.gameObject.transform.GetChild (0).gameObject.transform.GetChild (0).gameObject;
+		gameModel = GameObject.FindObjectOfType<GameModel>();
 	}
-
-	void OnDisable() {
-		GameManager.instance.playerFoodPoints = food;
-	}
+		
 	void UpdateBlink()
 	{
 		
@@ -155,11 +149,9 @@ public class Player : MovingObject {
 					SoundManager.instance.PlaySound (turnRight);
 				}
 			}
-
-			food--;
-			foodText.text = "Rotate " + food;
+				
 			base.Rotate (horizontal);
-			CheckIfGameOver ();
+
 			GameManager.instance.playersTurn = false;
 		}
 	}
@@ -167,12 +159,8 @@ public class Player : MovingObject {
 	protected override void AttemptMove<T>(int xdir, int ydir){
 
 
-		food--;
-
-		foodText.text = "Score " + food;
 		base.AttemptMove<T> (xdir, ydir);
 		//RaycastHit2D raycast;
-		CheckIfGameOver ();
 		GameManager.instance.playersTurn = false;
 	}
 
@@ -182,30 +170,32 @@ public class Player : MovingObject {
 		var pos = gameObject.transform.position;
 		var pos2 = other.transform.position;
 
+		
+		if( other.GetComponent<Collectible>())
+		{
+			Collectible collectible = other.GetComponent<Collectible>();
+			SoundManager.instance.PlaySound (	collectible.collectSound);
+			gameModel.Collect(collectible);
+			collectible.gameObject.SetActive(false);
+			ItemManager.instance.SpawnNextItem ();
+		}
+
 		if (other.tag == "Exit") {			
 			SoundManager.instance.PlaySound (exitDone);
 			Invoke ("Restart", restartLevelDelay);
 			enabled = false;
-		} else if (other.tag == "Food") {
-			food += pointsPerFood;
-			foodText.text = "+" + pointsPerFood + " Score " + food;
-			ItemManager.instance.SpawnNextItem ();
-			other.gameObject.SetActive (false);
-
-		} else if (other.tag == "Coins") {
-			food += pointsPerSoda;
-			foodText.text = "+" + pointsPerFood + " Score " + food;
-			other.gameObject.SetActive (false);
-		}
+		} 
 	}
 
 	protected override void OnCantMove<T>(T component)
 	{
 		if (component.tag == "Wall") {
 			SoundManager.instance.PlaySound (hitWallSound);
-		} else {
-			SoundManager.instance.PlaySound (hitOutterWallSound);
 		}
+		else
+		{
+			SoundManager.instance.PlaySound (hitOutterWallSound);
+		} 
 		BlinkIt ();
 		/*Wall hitWall = component as Wall;
 		hitWall.DamageWall (wallDamage);
@@ -220,16 +210,6 @@ public class Player : MovingObject {
 	public void LoseFood(int loss)
 	{
 		animator.SetTrigger ("PlayerHit");
-		food -= loss;
-		foodText.text = "-" + loss + " Score " + food;
-		CheckIfGameOver ();
 	}
 
-	private void CheckIfGameOver() 
-	{
-		if (food <= 0) {
-			food = 0;
-			//GameManager.instance.GameOver ();
-		}
-	}
 }
