@@ -21,7 +21,9 @@ public class Wall : MonoBehaviour {
 	}
 	public void Blinkit ()
 	{
-		blinking = 0.0f;
+		if (!isVisible) {
+			blinking = 0.0f;
+		}
 	}
 	public void SwapVisibility()
 	{
