@@ -35,6 +35,8 @@ public class Wall : MonoBehaviour {
 	}
 
 	void Update () {
+		return;
+
 		//float delta = (player.transform.position - transform.position).distance;
 		if (visibilityCheck) {
 			float unit = 10.0f;
@@ -52,6 +54,7 @@ public class Wall : MonoBehaviour {
 
 	void OnMouseDown()
 	{
+
 		//gameObject.renderer.enabled = !gameObject.renderer.enabled;
 		//	gameObject.SetActive (!gameObject.activ);
 		float delta = Vector3.Distance (player.transform.position, transform.position);

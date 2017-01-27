@@ -9,7 +9,8 @@ public class HRTF : MonoBehaviour {
 	public float angle;
 	public float minCutOff = 200;
 	public float maxCutOff = 400;
-
+	public float minReverb = 1;
+	public float maxReverb = 10;
 	// Use this for initialization
 	void Awake () {
 		filter = GetComponent<AudioLowPassFilter> ();
