@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public class Player : MovingObject {
 
+	public enum InputType
+	{
+		Joystick,
+		Keyboard
+	}
+
 	public enum MovementType
 	{
 		Relative,
@@ -27,6 +33,9 @@ public class Player : MovingObject {
 	public AudioClip moveBackward;
 	public AudioClip turnLeft;
 	public AudioClip turnRight;
+
+	[SerializeField]
+	private InputType inputType = InputType.Keyboard;
 
 	protected override void Start () {		
 
@@ -84,8 +93,8 @@ public class Player : MovingObject {
 		int horizontal = 0;
 		int vertical = 0;
 
-		horizontal = (int)Input.GetAxisRaw ("Horizontal");
-		vertical = (int)Input.GetAxisRaw ("Vertical");
+		horizontal = (int)Input.GetAxisRaw (((inputType == InputType.Keyboard) ? "Horizontal" : "joystick 1 analog 0"));
+		vertical =(int)Input.GetAxisRaw (((inputType == InputType.Keyboard) ? "Vertical" : "joystick 1 analog 1"));
 
 
 		if (movementType == MovementType.Relative) {
