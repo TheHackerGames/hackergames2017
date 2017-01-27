@@ -41,9 +41,15 @@ public class Wall : MonoBehaviour {
 		}
 	}
 
+	public static double EaseOut(double t, double b, double c, double d)
+	{
+		return c*((t=t/d-1)*t*t*t*t + 1) + b;
+	}
+
 	void Update () {
 		if (blinking < 1.0f && isVisible==false) {
 			blinking += Time.deltaTime;
+			float ease = (float)EaseOut (blinking, 0, 1, 1.0f);
 			Color col = Color.white;
 			GetComponent<Renderer> ().enabled = true;
 
@@ -51,7 +57,7 @@ public class Wall : MonoBehaviour {
 				blinking = 1.0f;
 				GetComponent<Renderer> ().enabled = isVisible;
 			}
-			col.a = 1.0f - blinking;
+			col.a = 1-ease;
 			GetComponent<Renderer> ().material.color = col;
 
 		} else {
